@@ -2,54 +2,54 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { signup } from '../../services/UserService';
 
-// const cities = 'Madrid' || 'Barcelona' || 'Miami' || 'Paris' || 'Berlin' || 'Amsterdam' || 'México' || 'Sao Paulo' || 'Lisbon'
+const cities = 'Madrid' || 'Barcelona' || 'Miami' || 'Paris' || 'Berlin' || 'Amsterdam' || 'México' || 'Sao Paulo' || 'Lisbon'
 
-// const validators = {
-//   username: value => {
-//     let message
+const validators = {
+  username: value => {
+    let message
 
-//     if (!value) {
-//       message = 'username is required'
-//     } else if (value && value.length < 4) {
-//       message = 'username is invalid'
-//     }
+    if (!value) {
+      message = 'username is required'
+    } else if (value && value.length < 4) {
+      message = 'username is invalid'
+    }
 
-//     return message
-//   },
-//   password: value => {
-//     let message
+    return message
+  },
+  password: value => {
+    let message
 
-//     if (!value) {
-//       message = 'Password is required'
-//     } else if (value && value.length < 8) {
-//       message = 'Password must have 8 character or more'
-//     }
+    if (!value) {
+      message = 'Password is required'
+    } else if (value && value.length < 8) {
+      message = 'Password must have 8 character or more'
+    }
 
-//     return message
-//   },
-//   campus: value => {
-//     let message
+    return message
+  },
+  campus: value => {
+    let message
 
-//     if (!value || value == '') {
-//       message = 'Campus is required'
-//     } else if (typeof value !== 'string') {
-//       message = `El valor debe de ser: ${cities}`
-//     }
+    if (!value || value == '') {
+      message = 'Campus is required'
+    } else if (typeof value !== 'string') {
+      message = `El valor debe de ser: ${cities}`
+    }
 
-//     return message
-//   },
-//   course: value => {
-//     let message
+    return message
+  },
+  course: value => {
+    let message
 
-//     if (!value || value == '') {
-//       message = 'Course is required'
-//     } else if (typeof value !== 'string') {
-//       message = "El valor debe ser: 'Web Dev', 'UX/UI', 'Data Analytics', 'Cibersecurity'"
-//     }
+    if (!value || value == '') {
+      message = 'Course is required'
+    } else if (typeof value !== 'string') {
+      message = "El valor debe ser: 'Web Dev', 'UX/UI', 'Data Analytics', 'Cibersecurity'"
+    }
 
-//     return message
-//   }
-// }
+    return message
+  }
+}
 
 const Signup = () => {
 
@@ -62,18 +62,17 @@ const Signup = () => {
 	  course: '',
 	})
 
-	// const [errors, setErrors] = useState({
-	// 	username: validators.username(),
-	// 	password: validators.password(),
-	// 	campus: validators.campus(),
-	// 	course: validators.course(),
-	// })
+	const [errors, setErrors] = useState({
+		username: validators.username(),
+		password: validators.password(),
+		campus: validators.campus(),
+		course: validators.course(),
+	})
 
   const [touched, setTouched] = useState({})
 
 
   const onSubmit = (e) => {
-    // const { user } = this.state
     e.preventDefault()
     
     console.log(user)
@@ -87,6 +86,11 @@ const Signup = () => {
     setUser((prevState) => ({
           ...prevState,
           [name]: value
+    }))
+    
+    setErrors((prevState) => ({
+          ...prevState,
+          [name]: validators[name] && validators[name](value)
     }))
     
   }
@@ -119,41 +123,41 @@ const Signup = () => {
 				<div className="mb-3">
 				<label htmlFor="username" className="form-label">Username </label>
 				<input
-					className={`form-control`}
+					className={`form-control ${touched.username && errors.username ? 'is-invalid' : ''}`}
 					type="username" id="username" name="username" autoComplete="off"
 					value={username} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
 				/>
-				{/* <div className="invalid-feedback">{errors.username}</div> */}
+				<div className="invalid-feedback">{errors.username}</div>
 				</div>
 
 				<div className="mb-3">
 				<label htmlFor="password" className="form-label">Password</label>
 				<input
-					className={`form-control`}
+					className={`form-control ${touched.password && errors.password ? 'is-invalid' : ''}`}
 					type="password" id="password" name="password"
 					value={password} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
 				/>
-				 {/* <div className="invalid-feedback">{errors.password}</div> */}
+				 <div className="invalid-feedback">{errors.password}</div>
         </div> 
         
         <div className="mb-3">
 				<label htmlFor="campus" className="form-label">Campus</label>
 				<input
-					className={`form-control`}
+					className={`form-control ${touched.campus && errors.campus ? 'is-invalid' : ''}`}
 					type="campus" id="campus" name="campus"
 					value={campus} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
 				/>
-				{/* <div className="invalid-feedback">{errors.campus}</div> */}
+				<div className="invalid-feedback">{errors.campus}</div>
         </div>
         
         <div className="mb-3">
 				<label htmlFor="course" className="form-label">Course</label>
 				<input
-					className={`form-control`}
+					className={`form-control ${touched.course && errors.course ? 'is-invalid' : ''}`}
 					type="course" id="course" name="course"
 					value={course} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
 				/>
-				{/* <div className="invalid-feedback">{errors.course}</div> */}
+				<div className="invalid-feedback">{errors.course}</div>
 				</div>
 
 				<button type="submit" className="btn btn-outline-primary">
