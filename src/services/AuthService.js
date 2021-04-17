@@ -6,5 +6,5 @@ const http = create({
 })
 
 export const login = (body) => {
-  return http.post('/login', body)
+  return http.post('/auth/login', body)
 }

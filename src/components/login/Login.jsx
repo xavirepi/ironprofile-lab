@@ -3,17 +3,14 @@ import { useHistory } from 'react-router';
 import { login } from '../../services/AuthService';
 import { setAccessToken } from '../../store/AccessTokenStore';
 
-// eslint-disable-next-line no-useless-escape
-const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
 const validators = {
-  email: value => {
+  username: value => {
     let message
 
     if (!value) {
-      message = 'Email is required'
-    } else if (!EMAIL_PATTERN.test(value)) {
-      message = 'Email is invalid'
+      message = 'username is required'
+    } else if (value && value.length < 4) {
+      message = 'username is invalid'
     }
 
     return message
@@ -36,11 +33,11 @@ const Login = ({ doLogin }) => {
 
   const [state, setState] = useState({
     fields: {
-      email: '',
+      username: '',
       password: ''
     },
     errors: {
-      email: validators.email(),
+      username: validators.username(),
       password: validators.password()
     }
   })
@@ -54,14 +51,14 @@ const Login = ({ doLogin }) => {
 
   const onSubmit = (e) => {
     const { fields } = state
-    e.preventDefault()
-
+	  e.preventDefault()
+	  
     if (isValid()) {
       login(fields)
         .then(response => {
           setAccessToken(response.access_token)
           doLogin()
-            .then(() => push('/'))
+            .then(() => push('/loggedin'))
         })
     }
   }
@@ -99,7 +96,7 @@ const Login = ({ doLogin }) => {
     }))
   }
 
-  const { email, password } = state.fields
+  const { username, password } = state.fields
   const { errors } = state
 
   return (
@@ -108,13 +105,13 @@ const Login = ({ doLogin }) => {
 			<form onSubmit={onSubmit} style={{ maxWidth: 500 }}>
 
 				<div className="mb-3">
-				<label htmlFor="email" className="form-label">Email address</label>
+				<label htmlFor="username" className="form-label">Username </label>
 				<input
-					className={`form-control ${touched.email && errors.email ? 'is-invalid' : ''}`}
-					type="email" id="email" name="email" autoComplete="off"
-					value={email} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
+					className={`form-control ${touched.username && errors.username ? 'is-invalid' : ''}`}
+					type="username" id="username" name="username" autoComplete="off"
+					value={username} onChange={onChange} onBlur={onBlur} onFocus={onFocus}
 				/>
-				<div className="invalid-feedback">{errors.email}</div>
+				<div className="invalid-feedback">{errors.username}</div>
 				</div>
 
 				<div className="mb-3">

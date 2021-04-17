@@ -1,4 +1,6 @@
 .App {
-    height: 500rem;
+    display: flex;
+        direction: flex-column;
     background-repeat: no-repeat;
+    height: 500rem;
 }
