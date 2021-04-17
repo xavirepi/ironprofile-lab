@@ -3,7 +3,7 @@ import { getAccessToken, logout } from "../store/AccessTokenStore";
 
 export const create = (opts = {}) => {
   const http = axios.create({
-    baseURL: "http://localhost:27017/lab-profile-app",
+    baseURL: "http://localhost:3001/api",
     ...opts,
   });
 
